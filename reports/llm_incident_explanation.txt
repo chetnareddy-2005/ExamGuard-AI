@@ -1,0 +1,24 @@
+EXAMGUARD - INCIDENT ANALYSIS REPORT
+==========================================
+Grouped incidents: 1
+Phone detection frames: 3
+
+OBSERVED EVIDENCE
+--------------------
+Incident #1
+  Time range: 3.54s - 4.74s
+  Frame detections: 3
+  Peak confidence: 40.8%
+  Status: Pending human review
+
+ASSESSMENT
+--------------------
+The model identified potential phone detections in the processed footage. Multiple frame detections have been grouped by time; they do not necessarily represent separate incidents.
+
+RECOMMENDED ACTION
+--------------------
+An authorized invigilator should inspect the original video and annotated evidence frames at the listed timestamps and compare them with the official examination rules before making any decision.
+
+LIMITATIONS
+--------------------
+Object detection confidence is not the probability of cheating. A phone detection alone does not prove misconduct. This report is an automated screening aid, not a disciplinary finding.

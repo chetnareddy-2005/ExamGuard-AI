@@ -1,0 +1,19 @@
+EXAMINATION RULES AND MALPRACTICE GUIDELINES
+
+Rule 1: Students must not use mobile phones during examinations
+unless explicitly authorized by the examination authority.
+
+Rule 2: Suspected unauthorized electronic devices must be reviewed
+by an authorized invigilator.
+
+Rule 3: CCTV footage may be reviewed to investigate a suspected
+examination rule violation.
+
+Rule 4: A detected mobile phone is an alert for human review.
+It is not, by itself, proof of malpractice.
+
+Rule 5: Any incident report must include the timestamp, detection
+confidence, relevant evidence, and reviewer observations.
+
+Rule 6: Final decisions must be made by authorized examination
+officials after reviewing the available evidence.

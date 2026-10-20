@@ -1,0 +1,34 @@
+AI-BASED EXAMINATION MALPRACTICE DETECTION
+Case ID: INC-2026-004
+Video: 155164-809618953.mp4
+Events Detected: 0
+Report:
+**Incident Dossier for Chief Examination Invigilator**
+
+**EXECUTIVE SUMMARY & EVIDENCE TIMELINE**
+
+* Detected device: Mobile phone
+* Exact timestamps: 0s-23.07s (entire duration of the video)
+* Duration: 23.07 seconds
+* FPS: 30.0
+* Peak confidence: No distinct malpractice events identified (YOLO Temporal Detection)
+
+**REGULATORY ANALYSIS & RULE CITATIONS**
+
+Upon reviewing the retrieved examination rules, the following analysis was conducted:
+
+* Rule 1: "Students must not use mobile phones during examinations unless explicitly authorized by the examination authority." (Relevance Score: 76.9%) The observed video shows a mobile phone present during the examination, which may indicate a potential rule violation. However, the duration of the phone's presence (23.07s) is within the allowed timeframe for explicit authorization.
+* Rule 4: "A detected mobile phone is an alert for human review. It is not, by itself, proof of malpractice." (Relevance Score: 61.3%) This rule emphasizes the need for human review in cases where a mobile phone is detected. However, the AI detection system did not identify any distinct malpractice events.
+* Rule 2: "Suspected unauthorized electronic devices must be reviewed by an authorized invigilator." (Relevance Score: 48.7%) This rule is not directly applicable to the observed event, as the device detected was a mobile phone, not an unauthorized electronic device.
+
+**PROTOCOL RECOMMENDATIONS FOR INVIGILATOR**
+
+To ensure compliance with examination rules and maintain the integrity of the assessment process, the following procedural steps are recommended:
+
+1. Conduct an in-person seat inspection to verify the student's device and ensure it is not being used during the examination.
+2. Custody of the mobile phone: Request the student to surrender the device for further review and inspection.
+3. Witness log: Document the incident, including the timestamp, device type, and any subsequent actions taken.
+
+**EVIDENTIARY DISCLAIMER & HUMAN REVIEW MANDATE**
+
+The AI detection system's findings should not be considered definitive proof of malpractice. The observed event may indicate a potential rule violation, but further human review and verification are necessary to ensure the integrity of the examination process. As per Rule 4, the detected mobile phone requires human review, and the invigilator's decision will be final.

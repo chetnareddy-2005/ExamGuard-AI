@@ -1,0 +1,8 @@
+path: C:/Users/shash/exam-malpractice-ai/dataset/reorganized_dataset
+train: train/images
+val: val/images
+test: test/images
+
+names:
+  0: phone
+  1: head
