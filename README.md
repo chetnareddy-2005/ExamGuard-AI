@@ -263,109 +263,215 @@ The following assets are maintained separately from the published source code:
 These files may be required for full local execution, training, or evaluation. They must be obtained or configured separately.
 
 ---
+## ⚙️ Installation and Setup (Windows)
 
-## ⚙️ Installation and Setup
+Follow these steps to run ExamGuard AI on a Windows laptop. You will use two separate terminals:
 
-### ✅ Prerequisites
+- **Terminal 1:** Backend (Python + FastAPI)
+- **Terminal 2:** Frontend (Next.js)
 
-Install or prepare:
+### Prerequisites
 
-- Git
-- Python and a compatible environment
-- Node.js and npm
-- The required Python packages
-- The trained YOLO model weights
-- Any required local video or dataset files
+Install the following software:
+
+- [Git for Windows](https://git-scm.com/download/win)
+- [Anaconda Distribution](https://www.anaconda.com/download)
+- [Node.js LTS](https://nodejs.org/en/download)
+
+After installation, follow the steps below in order.
 
 ### Step 1: Clone the Repository
 
-```bash
+Open **PowerShell** and run:
+
+```powershell
+cd "$HOME\OneDrive\Desktop"
 git clone https://github.com/chetnareddy-2005/ExamGuard-AI.git
-cd ExamGuard-AI
+cd .\ExamGuard-AI
 ```
 
-### Step 2: Configure the Backend Environment
+If you want to save the project in a different location, change the path accordingly.
 
-Open a terminal in the project root:
+If you have already cloned the repository, do not clone it again. Open PowerShell and navigate to your existing project folder.
+
+Verify the project files:
+
+```powershell
+Get-ChildItem
+```
+
+You should see folders such as `backend` and `frontend`, along with `README.md`.
+
+### Step 2: Initialize Conda for PowerShell
+
+This step is required if you want to run Conda commands directly in PowerShell.
+
+1. Open **Anaconda Prompt** from the Windows Start menu.
+2. Run:
+
+```bash
+conda init powershell
+```
+
+3. Close all open PowerShell windows.
+4. Open a new PowerShell window.
+5. Verify that Conda is available:
+
+```powershell
+conda --version
+```
+
+If a Conda version appears, continue.
+
+**Alternative:** You can skip this initialization step and run all Conda and backend commands in Anaconda Prompt instead.
+
+### Step 3: Create and Activate the Backend Environment
+
+Open PowerShell and navigate to the cloned project directory. For example:
+
+```powershell
+cd "$HOME\OneDrive\Desktop\ExamGuard-AI"
+```
+
+Create the Conda environment. Run this command only once:
+
+```powershell
+conda create -n exam-ai python=3.12 -y
+```
+
+If the environment already exists, skip the creation command.
+
+Activate the environment:
 
 ```powershell
 conda activate exam-ai
 ```
 
-This command assumes the `exam-ai` Conda environment already exists on your machine and contains the required dependencies.
+The terminal should show `(exam-ai)` in the prompt.
 
-If you use a different environment, activate that environment instead.
+### Step 4: Install Backend Dependencies
 
-### Step 3: Configure the Trained Model
+Make sure the terminal is in the project root and the `exam-ai` environment is active.
 
-The backend expects the trained weights at:
+Upgrade pip:
+
+```powershell
+python -m pip install --upgrade pip
+```
+
+Install the required packages:
+
+```powershell
+python -m pip install ultralytics fastapi "uvicorn[standard]" opencv-python python-multipart requests
+```
+
+Wait until the installation finishes.
+
+### Step 5: Configure the Trained AI Model
+
+The backend expects the trained model at:
 
 ```text
 runs/phone_head_v1/weights/best.pt
 ```
 
-The weights are not included in this public repository. Obtain the appropriate model file separately and place it at the expected location, or update the model configuration to point to its actual location.
+**Important:** The trained `best.pt` file is not included in this public GitHub repository.
 
-The dataset configuration in `data.yaml` may also need adjustment because local dataset paths are machine-specific.
+From the project root, check whether the model file exists:
 
-### Step 4: Start the Backend
+```powershell
+Test-Path ".\runs\phone_head_v1\weights\best.pt"
+```
 
-From the project root:
+- If the result is `True`, continue to Step 6.
+- If the result is `False`, obtain the correct trained model checkpoint from a trusted project source and place it at the expected path.
+
+The model must support the project's `phone` and `head` classes. Do not substitute an unrelated YOLO model.
+
+Without the correct trained weights, the backend health endpoint may work, but video analysis will not work as expected.
+
+If you plan to train or evaluate the model, check whether the dataset paths in `data.yaml` need to be updated for your machine.
+
+### Step 6: Start the Backend (Terminal 1)
+
+Keep the `exam-ai` Conda environment active.
+
+From the project root, run:
 
 ```powershell
 python -m uvicorn backend.main:app --host 127.0.0.1 --port 8002
 ```
 
-Alternatively, if running from inside the `backend` directory:
+Keep this terminal open while using the application.
+
+Verify the backend in your browser:
+
+- **Health check:** http://127.0.0.1:8002/health
+- **API documentation:** http://127.0.0.1:8002/docs
+
+The health endpoint should return:
+
+```json
+{"status":"healthy"}
+```
+
+A successful health check confirms that the backend is responding. It does not confirm that the model weights are installed or that video analysis works.
+
+### Step 7: Install Frontend Dependencies (Terminal 2)
+
+Open a **second, separate PowerShell window**. Do not close Terminal 1.
+
+Navigate to the frontend folder:
 
 ```powershell
-python -m uvicorn main:app --host 127.0.0.1 --port 8002
+cd "$HOME\OneDrive\Desktop\ExamGuard-AI\frontend"
 ```
 
-Keep the backend terminal open.
+If your project is stored elsewhere, update the path.
 
-Check the health endpoint:
-
-```text
-http://127.0.0.1:8002/health
-```
-
-Interactive API documentation is generally available at:
-
-```text
-http://127.0.0.1:8002/docs
-```
-
-### Step 5: Install Frontend Dependencies
-
-Open a second terminal from the repository root:
+Install the frontend dependencies:
 
 ```powershell
-cd frontend
 npm install
 ```
 
-Ensure the frontend API base URL points to the running backend:
+Wait until the installation finishes.
 
-```text
-http://127.0.0.1:8002
-```
+### Step 8: Start the Frontend
 
-### Step 6: Start the Frontend
+In the same second PowerShell window, run:
 
 ```powershell
 npm run dev
 ```
 
-Open the local URL printed by Next.js, typically:
+Keep this terminal open.
 
-```text
+Open the application in your browser:
+
 http://localhost:3000
-```
 
-Keep both backend and frontend processes running while using the application.
+Keep both the backend and frontend terminals running while using the application.
 
-> 💡 **Note:** A fresh clone is not a complete, ready-to-run deployment until the Python dependencies, model weights, and required configuration have been provided. Follow the actual environment requirements when setting up another machine.
+### Step 9: Troubleshooting
+
+| Problem | Solution |
+|---|---|
+| `conda` is not recognized in PowerShell | Run `conda init powershell` in Anaconda Prompt, restart PowerShell, or use Anaconda Prompt for backend commands. |
+| `backend.main` cannot be imported | Navigate to the project root, not the `backend` directory. |
+| Port 8002 is already in use | Stop the existing backend process before restarting it. |
+| Frontend shows Offline | Check that `http://127.0.0.1:8002/health` responds and verify the frontend API URL. |
+| `best.pt` is missing | Obtain the correct trained model weights separately. |
+| `npm` is not recognized | Install Node.js LTS, reopen PowerShell, and verify `node --version` and `npm --version`. |
+
+### Important Notes
+
+- Backend URL: `http://127.0.0.1:8002`
+- Frontend URL: `http://localhost:3000`
+- Use separate terminals for the backend and frontend.
+- Keep both terminals open while using the application.
+- The public repository does not include the trained model weights, training dataset, sample videos, or generated evidence files.
+- A detected phone does not automatically prove examination malpractice. All potential incidents require human review.
 
 ---
 
@@ -471,135 +577,3 @@ These results describe the tested model and environment. They do not establish i
 The public repository contains the core source code, frontend, configuration, rules, and sample report files. Model weights, datasets, videos, and generated evidence must be configured separately.
 
 The system should be used as a decision-support tool, with human verification of all potential incidents.
-
-
----
-
-## 🪟 Windows Setup (Separate PowerShell Terminals)
-
-Follow this section when setting up ExamGuard AI on a new Windows laptop. The backend and frontend run in **two separate terminals**. A third terminal is optional for testing.
-
-### Prerequisites
-
-Install:
-- [Git for Windows](https://git-scm.com/download/win)
-- [Anaconda Distribution](https://www.anaconda.com/download) (includes Conda)
-- [Node.js LTS](https://nodejs.org/en/download)
-
-Open a new PowerShell window after installing software.
-
-### Terminal 0 — Clone the repository (one time)
-
-Open PowerShell and run:
-
-```powershell
-cd "$HOME\OneDrive\Desktop"
-git clone https://github.com/chetnareddy-2005/ExamGuard-AI.git
-cd .\ExamGuard-AI
-```
-
-If you want to keep the project somewhere else, change the folder path accordingly. If the repository has already been cloned, skip `git clone` and use `cd` to enter the existing project folder.
-
-### Terminal 1 — Backend (Conda + FastAPI)
-
-Open **PowerShell** and run these commands from the project root.
-
-1. Create the Conda environment (only the first time):
-
-```powershell
-conda create -n exam-ai python=3.12 -y
-```
-
-If the environment already exists, skip environment creation.
-
-2. Activate it:
-
-```powershell
-conda activate exam-ai
-```
-
-If PowerShell says `conda` is not recognized, open **Anaconda Prompt** from the Windows Start menu, or initialize Conda for PowerShell using Anaconda's supported setup and reopen PowerShell.
-
-3. Go to the repository root. Adjust this path if you cloned the repository elsewhere:
-
-```powershell
-Set-Location "$HOME\OneDrive\Desktop\ExamGuard-AI"
-```
-
-4. Install the backend dependencies:
-
-```powershell
-python -m pip install --upgrade pip
-python -m pip install ultralytics fastapi "uvicorn[standard]" opencv-python python-multipart requests
-```
-
-5. Check whether the trained model exists:
-
-```powershell
-Test-Path ".\runs\phone_head_v1\weights\best.pt"
-```
-
-The expected model path is `runs/phone_head_v1/weights/best.pt`. **The trained `best.pt` file is not included in this public repository.** If the command returns `False`, the backend health endpoint may still work, but video analysis requires the correct trained weights for the `phone` and `head` classes. Obtain the project checkpoint from a trusted project source or train a compatible model using the appropriate dataset; do not use a random checkpoint.
-
-6. Start the backend:
-
-```powershell
-python -m uvicorn backend.main:app --host 127.0.0.1 --port 8002
-```
-
-Keep Terminal 1 open while using the app.
-
-Check the backend in a browser:
-- Health check: http://127.0.0.1:8002/health (expected response: `{"status":"healthy"}`)
-- API docs: http://127.0.0.1:8002/docs
-
-### Terminal 2 — Frontend (Next.js)
-
-Open a **second, separate PowerShell window**. Do not stop Terminal 1.
-
-1. Go to the frontend directory:
-
-```powershell
-Set-Location "$HOME\OneDrive\Desktop\ExamGuard-AI\frontend"
-```
-
-If you cloned the repository to another location, update the path.
-
-2. Install frontend dependencies (first setup, or after package changes):
-
-```powershell
-npm install
-```
-
-3. Start the frontend:
-
-```powershell
-npm run dev
-```
-
-Keep Terminal 2 open. Open the app at http://localhost:3000.
-
-### Terminal 3 — Optional testing
-
-Open a third PowerShell window for checks. You do not need a third terminal for normal operation.
-
-```powershell
-Invoke-RestMethod http://127.0.0.1:8002/health
-```
-
-To check the model from the repository root:
-
-```powershell
-Set-Location "$HOME\OneDrive\Desktop\ExamGuard-AI"
-Test-Path ".\runs\phone_head_v1\weights\best.pt"
-```
-
-### Common issues
-
-- **Conda not recognized in PowerShell:** Open Anaconda Prompt and run the Conda commands there, or initialize Conda for PowerShell and reopen it. Backend can run in Anaconda Prompt while the frontend runs in PowerShell.
-- **Port 8002 already in use:** Stop the existing backend process or choose another port and update the frontend API URL to match.
-- **Frontend shows Offline:** First confirm `http://127.0.0.1:8002/health` returns healthy. Then verify that the frontend calls the backend at `http://127.0.0.1:8002`.
-- **Model file missing:** A successful health check does not mean AI video analysis is ready. The trained model weights are required for video analysis.
-- **PowerShell path:** Use `Set-Location` or `cd`; `cd /d` is for Command Prompt, not PowerShell.
-
-Keep both the backend and frontend terminals running while using the application.
